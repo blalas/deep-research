@@ -27,6 +27,10 @@ async function handler(req: NextRequest) {
   try {
     let url = `${API_PROXY_BASE_URL}/${decodeURIComponent(path.join("/"))}`;
     if (params) url += `?${params}`;
+    
+    // 记录API请求URL
+    console.log('OpenAI Compatible API Request URL:', url);
+    
     const payload: RequestInit = {
       method: req.method,
       headers: {
@@ -36,10 +40,14 @@ async function handler(req: NextRequest) {
     };
     if (body) payload.body = JSON.stringify(body);
     const response = await fetch(url, payload);
+    
+    // 记录API响应状态
+    console.log('OpenAI Compatible API Response Status:', response.status, response.statusText);
+    
     return new NextResponse(response.body, response);
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
+      console.error('OpenAI Compatible API Error:', error);
       return NextResponse.json(
         { code: 500, message: error.message },
         { status: 500 }

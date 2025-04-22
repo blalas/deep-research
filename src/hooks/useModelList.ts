@@ -251,6 +251,12 @@ function useModelList() {
       if (mode === "local" && !openAICompatibleApiKey) {
         return [];
       }
+      
+      if (openAICompatibleApiProxy && openAICompatibleApiProxy.endsWith('#')) {
+        console.log('Using OpenAI compatible API models endpoint directly:', 
+          openAICompatibleApiProxy.substring(0, openAICompatibleApiProxy.length - 1) + '/models');
+      }
+      
       const apiKey = multiApiKeyPolling(openAICompatibleApiKey);
       const response = await fetch(
         mode === "local"
@@ -263,6 +269,9 @@ function useModelList() {
           },
         }
       );
+      
+      console.log('OpenAI compatible API models response status:', response.status, response.statusText);
+      
       const { data = [] } = await response.json();
       const newModelList = (data as OpenAIModel[]).map((item) => item.id);
       setModelList(newModelList);

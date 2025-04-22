@@ -139,6 +139,11 @@ function useModelProvider() {
         const { openAICompatibleApiKey = "", openAICompatibleApiProxy } =
           useSettingStore.getState();
         const openAICompatibleKey = multiApiKeyPolling(openAICompatibleApiKey);
+        
+        if (openAICompatibleApiProxy && openAICompatibleApiProxy.endsWith('#')) {
+          console.log('Using OpenAI compatible API endpoint directly:', openAICompatibleApiProxy.substring(0, openAICompatibleApiProxy.length - 1));
+        }
+        
         const openaicompatible = createOpenAI(
           mode === "local"
             ? {
