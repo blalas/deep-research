@@ -141,7 +141,8 @@ function useModelProvider() {
         const openAICompatibleKey = multiApiKeyPolling(openAICompatibleApiKey);
         
         if (openAICompatibleApiProxy && openAICompatibleApiProxy.endsWith('#')) {
-          console.log('Using OpenAI compatible API endpoint directly:', openAICompatibleApiProxy.substring(0, openAICompatibleApiProxy.length - 1));
+          const cleanUrl = openAICompatibleApiProxy.substring(0, openAICompatibleApiProxy.length - 1);
+          console.log('Using OpenAI compatible API endpoint directly:', cleanUrl);
         }
         
         const openaicompatible = createOpenAI(

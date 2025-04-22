@@ -2,9 +2,10 @@ export function completePath(url: string, newPath?: string) {
   try {
     // 处理以#结尾的URL，直接返回URL本身，不添加任何路径
     if (url.endsWith('#')) {
+      const cleanUrl = url.substring(0, url.length - 1); // 去掉结尾的#字符
       // 控制台输出使用的API端口
-      console.log('Using API endpoint directly:', url);
-      return url.substring(0, url.length - 1); // 去掉结尾的#字符
+      console.log('Using API endpoint directly:', cleanUrl);
+      return cleanUrl;
     }
 
     const urlObj = new URL(url);

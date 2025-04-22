@@ -44,6 +44,27 @@ async function handler(req: NextRequest) {
     // 记录API响应状态
     console.log('OpenAI Compatible API Response Status:', response.status, response.statusText);
     
+    // 尝试记录响应内容的简要信息（不克隆整个响应体，避免影响性能）
+    try {
+      const responseClone = response.clone();
+      const responseData = await responseClone.json();
+      if (responseData) {
+        // 记录响应中的关键信息，但不包含完整的响应内容
+        const responseInfo = {
+          status: response.status,
+          model: responseData.model,
+          object: responseData.object,
+          created: responseData.created,
+          // 如果响应包含choices，显示其长度
+          choicesLength: responseData.choices ? responseData.choices.length : undefined,
+        };
+        console.log('OpenAI Compatible API Response Info:', responseInfo);
+      }
+    } catch {
+      // 如果无法解析响应JSON，不要阻止主流程
+      console.log('OpenAI Compatible API Response Info: Unable to parse response');
+    }
+    
     return new NextResponse(response.body, response);
   } catch (error) {
     if (error instanceof Error) {

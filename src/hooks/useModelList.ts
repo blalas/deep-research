@@ -253,8 +253,8 @@ function useModelList() {
       }
       
       if (openAICompatibleApiProxy && openAICompatibleApiProxy.endsWith('#')) {
-        console.log('Using OpenAI compatible API models endpoint directly:', 
-          openAICompatibleApiProxy.substring(0, openAICompatibleApiProxy.length - 1) + '/models');
+        const cleanUrl = openAICompatibleApiProxy.substring(0, openAICompatibleApiProxy.length - 1);
+        console.log('Using OpenAI compatible API models endpoint directly:', cleanUrl + '/models');
       }
       
       const apiKey = multiApiKeyPolling(openAICompatibleApiKey);
